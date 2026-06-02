@@ -1,142 +1,146 @@
 # TeamTaskApp
 
-TeamTaskApp 是一个基于 Jetpack Compose 的团队任务协作原型项目。
+TeamTaskApp 是一个基于 Jetpack Compose 的团队任务协作原型项目，用于练习现代 Android 企业级开发中的页面结构、Material 3 主题、Navigation、UI State、表单校验和异常状态处理。
 
-当前项目处于学习阶段，目标是从一个基础 Compose Demo 逐步演进为具备页面导航、任务列表、详情页、创建页、个人页以及完整 UI 状态处理的 Android App 原型。
+本项目当前阶段不接入真实后端，先使用本地 Fake 数据源模拟企业任务协作场景，保证在没有接口的情况下也能完整推进 UI 开发。
+
+## 技术栈
+
+- Kotlin
+- Jetpack Compose
+- Material 3
+- AndroidX
+- Compose Navigation
+- Fake Repository
+- Git / GitHub
 
 ## 项目目标
 
-通过 TeamTaskApp 学习并实践 Android 企业项目中常见的 Compose 架构与 UI 组织方式，包括：
+本项目以“团队任务协作”为业务背景，逐步完成一个具备企业项目雏形的 Android App。
 
-* Compose 项目结构设计
-* Material 3 主题系统
-* 统一颜色、字体、间距、圆角规范
-* 页面与组件拆分
-* Navigation 页面导航
-* 表单校验
-* Loading / Empty / Error 状态处理
-* Snackbar、Dialog 等交互组件
-* Fake Repository 模拟数据层
+核心页面包括：
 
-## 当前阶段
+- 首页：任务列表
+- 详情页：任务标题、描述、状态、负责人、截止日期
+- 创建页：表单创建任务
+- 个人页：用户信息、设置入口
 
-### Phase 1：项目基础搭建
+核心 UI 状态包括：
 
-已完成内容：
-
-* 创建基础 Jetpack Compose 项目
-* 整理项目包结构
-* 配置 `MainActivity`
-* 使用 `setContent` 作为 Compose 入口
-* 配置 `MaterialTheme`
-* 使用 `Surface` 作为页面根容器
-* 创建基础数据模型 `Task`
-* 创建 Fake 数据仓库
-* 配置 Material 3 主题系统
-* 支持 Light / Dark Theme
-* 支持 Android 12+ Dynamic Color
-* 抽取统一 spacing token
+- Loading：加载中
+- Content：正常数据
+- Empty：空数据
+- Error：加载失败
+- No Permission：权限不足
 
 ## 当前目录结构
 
 ```text
-app/src/main/java/com/nep/teamtask
-├── MainActivity.kt
+TeamTaskApp
 ├── data
-│   ├── model
-│   │   └── Task.kt
-│   └── fake
-│       └── FakeTaskRepository.kt
-└── ui
-    ├── theme
-    │   ├── Color.kt
-    │   ├── Type.kt
-    │   └── Theme.kt
-    ├── screen
-    │   └── HomeScreen.kt
-    ├── component
-    │   └── AppPlaceholder.kt
-    └── navigation
-        └── TeamTaskRoutes.kt
+│   ├── fake
+│   │   └── FakeTaskRepository.kt
+│   └── model
+│       ├── Task.kt
+│       ├── TaskStatus.kt
+│       └── User.kt
+├── ui
+│   ├── component
+│   ├── navigation
+│   ├── screen
+│   └── theme
+│       ├── Color.kt
+│       ├── Theme.kt
+│       └── Type.kt
+└── MainActivity.kt
 ```
 
-## 技术栈
 
-* Kotlin
-* Jetpack Compose
-* Material 3
-* Android Studio
-* Gradle
 
-## 主题系统
+## 已完成内容
+### Phase 01：项目基础搭建
+- 创建 Jetpack Compose 项目
+- 拆分基础包结构
+- 配置 ui/theme
+- 配置 Material 3 主题
+- 理解 setContent
+- 理解 MaterialTheme
+- 理解基础 Compose 项目组织方式
 
-当前主题系统集中在：
+### Phase 02：数据模型与 Fake 数据源
+已完成：
+- 定义 User 数据模型
+- 定义 TaskStatus 枚举
+- 定义 Task 数据模型
+- 编写 FakeTaskRepository
+- 模拟正常数据、空数据、加载失败、权限不足
+- 为后续 loading / empty / error / no permission UI 状态做准备
 
-```text
-ui/theme
-├── Color.kt
-├── Type.kt
-└── Theme.kt
+
+
+
+## 核心数据模型
+```kotlin
+data class Task(
+    val id: String,
+    val title: String,
+    val description: String,
+    val status: TaskStatus,
+    val assignee: User,
+    val dueDate: String
+)
 ```
 
-主题层负责统一管理：
 
-* `colorScheme`
-* `typography`
-* `shapes`
-* `spacing`
-* `darkTheme`
-* `dynamicColor`
-
-页面中应优先使用：
 
 ```kotlin
-MaterialTheme.colorScheme.primary
-MaterialTheme.typography.titleLarge
-MaterialTheme.shapes.medium
-TeamTaskTheme.spacing.large
+enum class TaskStatus {
+    TODO,
+    IN_PROGRESS,
+    DONE,
+    BLOCKED
+}
 ```
 
-避免在页面中直接硬编码：
+
 
 ```kotlin
-Color(0xFF2563EB)
-16.dp
-RoundedCornerShape(12.dp)
+data class User(
+    val id: String,
+    val name: String,
+    val role: String,
+    val avatarUrl: String? = null
+)
 ```
 
-## 下一阶段计划
 
-### Phase 2：Compose 页面与导航
 
-计划完成：
+## Fake 数据源能力
 
-* 首页：任务列表
-* 详情页：任务标题、描述、状态、负责人、截止日期
-* 创建页：任务表单
-* 个人页：用户信息与设置入口
-* Navigation Compose 页面跳转
-* Loading 状态
-* Empty 状态
-* Error 状态
-* Snackbar
-* Dialog
-* 基础表单校验
+FakeTaskRepository 当前支持以下场景：
 
-## Git 提交规范
+|场景|说明|
+|---|---|
+|`NORMAL`|正常返回任务列表|
+|`EMPTY`|返回空任务列表|
+|`LOAD_FAILED`|模拟加载失败|
+|`NO_PERMISSION`|模拟权限不足|
 
-推荐使用 Conventional Commits：
 
-```text
-chore: project setup
-feat: add task list screen
-fix: handle empty task state
-docs: update README
-refactor: extract task card component
-```
+这样做的目的是：即使后端接口还没有开发完成，也可以先完整推进 UI 页面、状态管理和交互逻辑。
 
-第一阶段推荐提交信息：
 
-```text
-chore: complete phase 1 project setup
-```
+
+
+## 后续计划
+
+下一步进入 Compose 页面状态设计与页面开发：
+
+- 定义首页 UI State
+- 编写任务列表页
+- 编写 Loading UI
+- 编写 Empty UI
+- 编写 Error UI
+- 编写 No Permission UI
+- 接入 FakeTaskRepository
+- 后续再引入 Navigation 和创建任务页面
