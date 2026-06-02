@@ -48,6 +48,12 @@ val TeamTaskTypography = Typography(
         fontSize = 16.sp,
         lineHeight = 24.sp
     ),
+    bodyMedium = androidx.compose.ui.text.TextStyle(
+        fontFamily = JasonHandwriting,
+        fontWeight = FontWeight.Normal,
+        fontSize = 14.sp,
+        lineHeight = 20.sp
+    ),
     bodyLarge = androidx.compose.ui.text.TextStyle(
         fontFamily = JasonHandwriting,
         fontWeight = FontWeight.Normal,
