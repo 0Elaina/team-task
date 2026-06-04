@@ -12,6 +12,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.nep.teamtask.ui.navigation.TeamTaskNavHost
 import com.nep.teamtask.ui.screen.HomeScreen
 import com.nep.teamtask.ui.theme.TeamTaskAppTheme
 import com.nep.teamtask.ui.theme.TeamTaskTheme
@@ -32,7 +33,7 @@ fun TeamTaskApp() {
         Surface(
             modifier = Modifier.fillMaxSize()
         ) {
-            HomeScreen()
+            TeamTaskNavHost()
         }
     }
 }
