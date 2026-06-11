@@ -113,6 +113,7 @@ data class TeamTaskSpacing(
     val extraLarge: Dp = 24.dp,
     val screenPadding: Dp = 32.dp,
     val contentPadding: Dp = 56.dp,
+    val cardElevationSmall: Dp = 1.dp,
 )
 
 private val LocalTeamTaskSpacing = staticCompositionLocalOf {
