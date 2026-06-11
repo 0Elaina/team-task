@@ -8,7 +8,6 @@ package com.nep.teamtask.ui.screen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -38,10 +37,13 @@ import androidx.compose.ui.text.font.FontWeight
 import com.nep.teamtask.data.fake.FakeTaskRepository
 import com.nep.teamtask.data.fake.FakeTaskResult
 import com.nep.teamtask.data.model.Task
-import com.nep.teamtask.data.model.toDisplayText
+import com.nep.teamtask.ui.component.AssigneeInfo
+import com.nep.teamtask.ui.component.DueDateInfo
 import com.nep.teamtask.ui.component.EmptyView
 import com.nep.teamtask.ui.component.ErrorView
 import com.nep.teamtask.ui.component.LoadingView
+import com.nep.teamtask.ui.component.StatusChip
+import com.nep.teamtask.ui.component.TaskInfoRow
 import com.nep.teamtask.ui.state.UiState
 import com.nep.teamtask.ui.theme.TeamTaskTheme
 
@@ -202,51 +204,27 @@ private fun TaskDetailContent(
             Column(
                 modifier = Modifier.padding(TeamTaskTheme.spacing.large)
             ) {
-                TaskDetailField(label = "状态", value = task.status.toDisplayText())
+                TaskInfoRow(label = "状态"){
+                    StatusChip(status = task.status)
+                }
 
                 HorizontalDivider(
                     modifier = Modifier.padding(vertical = TeamTaskTheme.spacing.medium)
                 )
 
-                TaskDetailField(
-                    label = "负责人",
-                    value = "${task.assignee.name} · ${task.assignee.role}"
-                )
+                TaskInfoRow(label = "负责人") {
+                    AssigneeInfo(user = task.assignee)
+                }
 
                 HorizontalDivider(
                     modifier = Modifier.padding(vertical = TeamTaskTheme.spacing.medium)
                 )
 
-                TaskDetailField(label = "截止日期", value = task.dueDate)
+                TaskInfoRow(label = "截止日期") {
+                    DueDateInfo(dueDate = task.dueDate)
+                }
             }
         }
     }
 }
 
-/**
- * TaskDetailField —— 详情页中的标签-值行。
- * 左右分布，左侧标签（次强调色），右侧值（主要色，中粗字重）。
- */
-@Composable
-private fun TaskDetailField(
-    label: String,
-    value: String
-) {
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-        Text(
-            text = label,
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
-        )
-
-        Text(
-            text = value,
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurface,
-            fontWeight = FontWeight.Medium
-        )
-    }
-}
